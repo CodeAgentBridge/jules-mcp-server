@@ -1,0 +1,20 @@
+[project]
+name = "jules-mcp"
+version = "0.1.0"
+description = "Google Jules MCP server"
+requires-python = ">=3.13"
+dependencies = [
+    "fastmcp>=2.12.4",
+    "jules-agent-sdk>=0.1.0",
+    "requests>=2.32.5",
+]
+
+[scripts]
+
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
+    "types-requests>=2.32.4.20250913",
+]
