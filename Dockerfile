@@ -1,11 +1,8 @@
 # Use an official Python runtime as a parent image
-FROM python:3.13-slim
+FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim
 
 # Set the working directory in the container
 WORKDIR /app
-
-# Install uv
-RUN pip install uv
 
 # Copy the dependency files
 COPY pyproject.toml uv.lock ./
@@ -16,5 +13,7 @@ RUN uv sync --no-dev
 # Copy the rest of the application code
 COPY jules_mcp/ ./jules_mcp
 
+ENV JULES_API_KEY=""
+
 # Set the entrypoint
-ENTRYPOINT ["python", "-m", "jules_mcp"]
+ENTRYPOINT ["uv", "run", "--with", "fastmcp", "--with", "jules-agent-sdk", "--with", "requests", "fastmcp", "run", "jules_mcp/jules_mcp.py"]
