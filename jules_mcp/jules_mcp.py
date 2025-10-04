@@ -19,7 +19,7 @@ from fastmcp import FastMCP
 from jules_agent_sdk import JulesClient, models
 from mcp.types import ToolAnnotations
 
-version: Final[str] = "0.1.2"
+version: Final[str] = "0.1.3"
 
 _jules_client: JulesClient | None = None
 
@@ -33,6 +33,10 @@ def jules(api_key: str | None = None) -> JulesClient:
     if _jules_client is None:
         if api_key is None:
             api_key = os.getenv("JULES_API_KEY")
+        if not api_key:
+            raise ValueError(
+                "Jules API key not provided. Please set the JULES_API_KEY environment variable or explicitly provide it."
+            )
         _jules_client = JulesClient(api_key)
     return _jules_client
 
