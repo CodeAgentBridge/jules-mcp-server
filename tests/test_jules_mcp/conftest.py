@@ -26,6 +26,7 @@ from fastmcp.tools.tool import ParsedFunction
 # Store the original classmethod's underlying function.
 original_from_function = ParsedFunction.from_function.__func__
 
+
 @classmethod
 def patched_from_function(cls, fn, *args, **kwargs):
     """
@@ -43,6 +44,7 @@ def patched_from_function(cls, fn, *args, **kwargs):
 
     # Call the original function with the class and the rest of the arguments.
     return original_from_function(cls, fn, *args, **kwargs)
+
 
 # Apply the patch directly to the class.
 ParsedFunction.from_function = patched_from_function

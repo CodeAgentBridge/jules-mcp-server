@@ -43,17 +43,13 @@ class TestSources:
         )
 
         assert len(result.structured_content["sources"]) == 1
-        assert (
-            result.structured_content["sources"][0]["name"] == "sources/test-source"
-        )
+        assert result.structured_content["sources"][0]["name"] == "sources/test-source"
         assert result.structured_content["nextPageToken"] == "next-page-token"
         mock_jules_client.sources.list.assert_called_once_with(
             filter_str="name=sources/test-source", page_size=1, page_token=None
         )
 
-    async def test_get_all_sources(
-        self, client: Client, mock_jules_client: MagicMock
-    ):
+    async def test_get_all_sources(self, client: Client, mock_jules_client: MagicMock):
         mock_jules_client.sources.list_all.return_value = [
             models.Source(id="test-source-1", name="sources/test-source-1"),
             models.Source(id="test-source-2", name="sources/test-source-2"),
@@ -64,14 +60,8 @@ class TestSources:
         )
 
         assert len(result.structured_content["result"]) == 2
-        assert (
-            result.structured_content["result"][0]["name"]
-            == "sources/test-source-1"
-        )
-        assert (
-            result.structured_content["result"][1]["name"]
-            == "sources/test-source-2"
-        )
+        assert result.structured_content["result"][0]["name"] == "sources/test-source-1"
+        assert result.structured_content["result"][1]["name"] == "sources/test-source-2"
         mock_jules_client.sources.list_all.assert_called_once_with(
             filter_str="name=sources/test-source-1"
         )
@@ -120,9 +110,7 @@ class TestSessions:
     ):
         mock_jules_client.sessions.get.return_value = mock_session_dict
 
-        result = await client.call_tool(
-            "get_session", {"session_id": "test-session"}
-        )
+        result = await client.call_tool("get_session", {"session_id": "test-session"})
 
         assert result.structured_content["name"] == "sessions/test-session"
         mock_jules_client.sessions.get.assert_called_once_with("test-session")
@@ -139,8 +127,7 @@ class TestSessions:
 
         assert len(result.structured_content["sessions"]) == 1
         assert (
-            result.structured_content["sessions"][0]["name"]
-            == "sessions/test-session"
+            result.structured_content["sessions"][0]["name"] == "sessions/test-session"
         )
         assert result.structured_content["nextPageToken"] == "next-page-token"
         mock_jules_client.sessions.list.assert_called_once_with(
@@ -155,9 +142,7 @@ class TestSessions:
         )
 
         assert result.structured_content["status"] == "approved"
-        mock_jules_client.sessions.approve_plan.assert_called_once_with(
-            "test-session"
-        )
+        mock_jules_client.sessions.approve_plan.assert_called_once_with("test-session")
 
     async def test_send_session_message(
         self, client: Client, mock_jules_client: MagicMock
@@ -176,9 +161,7 @@ class TestSessions:
         self, client: Client, mock_jules_client: MagicMock, mock_session_dict: dict
     ):
         mock_session_dict["state"] = "COMPLETED"
-        mock_jules_client.sessions.wait_for_completion.return_value = (
-            mock_session_dict
-        )
+        mock_jules_client.sessions.wait_for_completion.return_value = mock_session_dict
 
         result = await client.call_tool(
             "wait_for_session_completion",
@@ -211,14 +194,10 @@ class TestActivities:
             "test-session", "test-activity"
         )
 
-    async def test_list_activities(
-        self, client: Client, mock_jules_client: MagicMock
-    ):
+    async def test_list_activities(self, client: Client, mock_jules_client: MagicMock):
         mock_jules_client.activities.list.return_value = {
             "activities": [
-                models.Activity(
-                    name="sessions/test-session/activities/test-activity"
-                )
+                models.Activity(name="sessions/test-session/activities/test-activity")
             ],
             "nextPageToken": "next-page-token",
         }
@@ -241,12 +220,8 @@ class TestActivities:
         self, client: Client, mock_jules_client: MagicMock
     ):
         mock_jules_client.activities.list_all.return_value = [
-            models.Activity(
-                name="sessions/test-session/activities/test-activity-1"
-            ),
-            models.Activity(
-                name="sessions/test-session/activities/test-activity-2"
-            ),
+            models.Activity(name="sessions/test-session/activities/test-activity-1"),
+            models.Activity(name="sessions/test-session/activities/test-activity-2"),
         ]
 
         result = await client.call_tool(
@@ -262,6 +237,4 @@ class TestActivities:
             result.structured_content["result"][1]["name"]
             == "sessions/test-session/activities/test-activity-2"
         )
-        mock_jules_client.activities.list_all.assert_called_once_with(
-            "test-session"
-        )
+        mock_jules_client.activities.list_all.assert_called_once_with("test-session")
