@@ -1,0 +1,20 @@
+{
+  "jules": {
+    "command": "uv",
+    "args": [
+      "run",
+      "--with",
+      "fastmcp",
+      "--with",
+      "jules-agent-sdk",
+      "--with",
+      "requests",
+      "fastmcp",
+      "run",
+      "jules_mcp/jules_mcp.py"
+    ],
+    "env": {
+      "JULES_API_KEY": "${JULES_API_KEY}"
+    }
+  }
+}
