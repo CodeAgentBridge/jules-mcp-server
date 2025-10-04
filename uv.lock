@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.13"
 
 [[package]]
@@ -547,10 +547,10 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "mypy", specifier = ">=1.11.0" },
+    { name = "mypy", specifier = ">=1.18.2" },
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-asyncio", specifier = ">=1.2.0" },
-    { name = "ruff", specifier = ">=0.5.5" },
+    { name = "ruff", specifier = ">=0.13.3" },
     { name = "types-requests", specifier = ">=2.32.4.20250913" },
 ]
 
