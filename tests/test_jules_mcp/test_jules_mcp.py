@@ -12,13 +12,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import os
+
 import pytest
 from fastmcp import Client
 
 from jules_mcp import mcp
 
+requires_api_key = pytest.mark.skipif(
+    not os.environ.get("JULES_API_KEY"), reason="JULES_API_KEY is not set"
+)
+
 
 @pytest.mark.asyncio
+@requires_api_key
 async def test_tool_execution():
     client: Client
     async with Client(mcp) as client:
