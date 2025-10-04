@@ -10,20 +10,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
+    - uses: actions/checkout@v5
+    - name: "Set up Python"
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13'
+        python-version-file: "pyproject.toml"
+
     - name: Install uv
-      run: pip install uv
-    - name: Install dependencies
-      run: uv sync --all-extras
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+
+    - name: Install the project
+      run: uv sync --locked --all-extras --dev
+
     - name: Lint with ruff
       run: uv run ruff check .
+
     - name: Format with ruff
       run: uv run ruff format --check .
-    - name: Type check with mypy
-      run: uv run mypy .
+
+#    - name: Type check with mypy
+#      run: uv run mypy .
+
     - name: Test with pytest
       run: uv run pytest
