@@ -3,6 +3,9 @@ from typing import Any
 
 from fastmcp import FastMCP
 from jules_agent_sdk import JulesClient, models
+from mcp.types import ToolAnnotations
+
+from jules_mcp.version import version
 
 _jules_client: JulesClient | None = None
 
@@ -20,7 +23,7 @@ def jules(api_key: str | None = None) -> JulesClient:
     return _jules_client
 
 
-mcp = FastMCP("Jules MCP Server")
+mcp = FastMCP("Jules MCP Server", version=version)
 
 
 # -------------------- Sources --------------------
@@ -29,6 +32,10 @@ mcp = FastMCP("Jules MCP Server")
     title="Get source",
     description="Get a single source by ID (e.g., sources/abc123 or abc123)",
     tags={"sources"},
+    annotations=ToolAnnotations(
+        title="Get Jules source by ID", readOnlyHint=True, idempotentHint=True,
+        destructiveHint=False, openWorldHint=True,
+    )
 )
 def get_source(source_id: str) -> models.Source:
     """Get a single source by ID.
