@@ -1,4 +1,3 @@
-
 #  Copyright (C) 2025 Yurii Serhiichuk
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,5 +14,5 @@
 
 from jules_mcp.jules_mcp import start_mcp
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     start_mcp()
