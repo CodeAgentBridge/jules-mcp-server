@@ -1,11 +1,11 @@
 import os
-from typing import Any
+from typing import Any, Final
 
 from fastmcp import FastMCP
 from jules_agent_sdk import JulesClient, models
 from mcp.types import ToolAnnotations
 
-from jules_mcp.version import version
+version: Final[str] = "0.1.0"
 
 _jules_client: JulesClient | None = None
 
