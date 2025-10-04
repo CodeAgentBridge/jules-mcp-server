@@ -47,9 +47,12 @@ mcp = FastMCP("Jules MCP Server", version=version)
     description="Get a single source by ID (e.g., sources/abc123 or abc123)",
     tags={"sources"},
     annotations=ToolAnnotations(
-        title="Get Jules source by ID", readOnlyHint=True, idempotentHint=True,
-        destructiveHint=False, openWorldHint=True,
-    )
+        title="Get Jules source by ID",
+        readOnlyHint=True,
+        idempotentHint=True,
+        destructiveHint=False,
+        openWorldHint=True,
+    ),
 )
 def get_source(source_id: str) -> models.Source:
     """Get a single source by ID.
@@ -68,9 +71,9 @@ def get_source(source_id: str) -> models.Source:
     tags={"sources"},
 )
 def list_sources(
-        filter_str: str | None = None,
-        page_size: int | None = None,
-        page_token: str | None = None,
+    filter_str: str | None = None,
+    page_size: int | None = None,
+    page_token: str | None = None,
 ) -> dict[str, Any]:
     """List sources (paginated).
 
@@ -84,7 +87,9 @@ def list_sources(
             - sources: list[Source]
             - nextPageToken: Optional[str]
     """
-    result = jules().sources.list(filter_str=filter_str, page_size=page_size, page_token=page_token)
+    result = jules().sources.list(
+        filter_str=filter_str, page_size=page_size, page_token=page_token
+    )
     return result
 
 
@@ -115,11 +120,11 @@ def get_all_sources(filter_str: str | None = None) -> list[models.Source]:
     tags={"sessions"},
 )
 def create_session(
-        prompt: str,
-        source: str,
-        starting_branch: str | None = None,
-        title: str | None = None,
-        require_plan_approval: bool = False,
+    prompt: str,
+    source: str,
+    starting_branch: str | None = None,
+    title: str | None = None,
+    require_plan_approval: bool = False,
 ) -> models.Session:
     """Create a new session.
 
@@ -161,7 +166,9 @@ def get_session(session_id: str) -> models.Session:
     description="List sessions with pagination; returns items and nextPageToken.",
     tags={"sessions"},
 )
-def list_sessions(page_size: int | None = None, page_token: str | None = None) -> dict[str, Any]:
+def list_sessions(
+    page_size: int | None = None, page_token: str | None = None
+) -> dict[str, Any]:
     """List sessions (paginated).
 
     Args:
@@ -222,9 +229,9 @@ def send_session_message(session_id: str, prompt: str) -> dict[str, str]:
     tags={"sessions"},
 )
 def wait_for_session_completion(
-        session_id: str,
-        poll_interval: int = 5,
-        timeout: int | None = 600,
+    session_id: str,
+    poll_interval: int = 5,
+    timeout: int | None = 600,
 ) -> models.Session:
     """Wait for a session to reach a terminal state.
 
@@ -233,8 +240,9 @@ def wait_for_session_completion(
         poll_interval: Seconds between polling requests (default: 5).
         timeout: Optional timeout in seconds (default: 600). Set None for no timeout.
     """
-    return jules().sessions.wait_for_completion(session_id, poll_interval=poll_interval,
-                                                timeout=timeout)
+    return jules().sessions.wait_for_completion(
+        session_id, poll_interval=poll_interval, timeout=timeout
+    )
 
 
 # -------------------- Activities --------------------
@@ -261,9 +269,9 @@ def get_activity(session_id: str, activity_id: str) -> models.Activity:
     tags={"activities"},
 )
 def list_activities(
-        session_id: str,
-        page_size: int | None = None,
-        page_token: str | None = None,
+    session_id: str,
+    page_size: int | None = None,
+    page_token: str | None = None,
 ) -> dict[str, Any]:
     """List activities for a session (paginated).
 
@@ -277,7 +285,9 @@ def list_activities(
             - activities: list[Activity]
             - nextPageToken: Optional[str]
     """
-    return jules().activities.list(session_id, page_size=page_size, page_token=page_token)
+    return jules().activities.list(
+        session_id, page_size=page_size, page_token=page_token
+    )
 
 
 @mcp.tool(
@@ -295,5 +305,5 @@ def start_mcp() -> None:
     mcp.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     start_mcp()
