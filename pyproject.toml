@@ -1,6 +1,6 @@
 [project]
 name = "jules-mcp"
-version = "0.1.1"
+version = "0.1.2"
 description = "Google Jules MCP server"
 requires-python = ">=3.13"
 dependencies = [
@@ -8,6 +8,17 @@ dependencies = [
     "jules-agent-sdk>=0.1.0",
     "requests>=2.32.5",
 ]
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [{ name = "Yurii Serhiichuk", email = "savik@gmail.com" }]
+keywords = ["jules", "mcp", "google"]
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+[project.urls]
+homepage = "https://github.com/CodeAgentBridge/jules-mcp-server"
+source = "https://github.com/CodeAgentBridge/jules-mcp-server.git"
+issues = "https://github.com/CodeAgentBridge/jules-mcp-server/issues"
+releasenotes = "https://github.com/CodeAgentBridge/jules-mcp-server/releases"
+container = "https://github.com/CodeAgentBridge/jules-mcp-server/pkgs/container/jules-mcp-server"
 
 [tool.setuptools.packages.find]
 where = ["."]

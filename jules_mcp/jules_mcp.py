@@ -19,7 +19,7 @@ from fastmcp import FastMCP
 from jules_agent_sdk import JulesClient, models
 from mcp.types import ToolAnnotations
 
-version: Final[str] = "0.1.1"
+version: Final[str] = "0.1.2"
 
 _jules_client: JulesClient | None = None
 
