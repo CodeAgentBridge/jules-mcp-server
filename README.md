@@ -1,4 +1,6 @@
 # Jules MCP Server (jules-mcp)
+[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_jules-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=ffffff)](vscode:mcp/install?%7B%22name%22%3A%22jules%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22uv%22%2C%22args%22%3A%5B%22run%22%2C%22--with%22%2C%22git%2Bhttps%3A%2F%2Fgithub.com%2FCodeAgentBridge%2Fjules-mcp-server.git%22%2C%22--%22%2C%22python%22%2C%22-m%22%2C%22jules_mcp.jules_mcp%22%5D%2C%22env%22%3A%7B%22JULES_API_KEY%22%3A%22%24%7Binput%3AJULES_API_KEY%7D%22%7D%7D)
+[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_jules-24bfa5?style=for-the-badge&logo=visualstudiocode&logoColor=ffffff)](vscode-insiders:mcp/install?%7B%22name%22%3A%22jules%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22uv%22%2C%22args%22%3A%5B%22run%22%2C%22--with%22%2C%22git%2Bhttps%3A%2F%2Fgithub.com%2FCodeAgentBridge%2Fjules-mcp-server.git%22%2C%22--%22%2C%22python%22%2C%22-m%22%2C%22jules_mcp.jules_mcp%22%5D%2C%22env%22%3A%7B%22JULES_API_KEY%22%3A%22%24%7Binput%3AJULES_API_KEY%7D%22%7D%7D)
 
 An MCP (Model Context Protocol) server that exposes Google Jules Agent operations via FastMCP.
 
