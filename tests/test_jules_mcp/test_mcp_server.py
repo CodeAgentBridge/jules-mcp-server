@@ -12,11 +12,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import tomllib
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 from fastmcp import Client
 from jules_agent_sdk import models
+
+import jules_mcp
 
 
 @pytest.mark.asyncio
@@ -74,10 +78,10 @@ class TestSessions:
         """Provides a mock session as a dictionary."""
         return {
             "name": "sessions/test-session",
+            "id": "test-session",
             "title": "Test Session",
             "prompt": "Test prompt",
-            "source": "sources/test-source",
-            "source_context": {"source_name": "sources/test-source"},
+            "source_context": {"source": "sources/test-source"},
             "state": "IN_PROGRESS",
         }
 
@@ -238,3 +242,22 @@ class TestActivities:
             == "sessions/test-session/activities/test-activity-2"
         )
         mock_jules_client.activities.list_all.assert_called_once_with("test-session")
+
+
+class TestVersion:
+    """The version the server advertises must match the packaged version."""
+
+    @staticmethod
+    def _pyproject_version() -> str:
+        pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
+        with pyproject.open("rb") as handle:
+            return str(tomllib.load(handle)["project"]["version"])
+
+    def test_reported_version_matches_pyproject(self):
+        assert jules_mcp.version == self._pyproject_version()
+
+    def test_fallback_version_matches_pyproject(self):
+        """The source-checkout fallback must not drift from pyproject either."""
+        from jules_mcp.jules_mcp import _FALLBACK_VERSION
+
+        assert _FALLBACK_VERSION == self._pyproject_version()

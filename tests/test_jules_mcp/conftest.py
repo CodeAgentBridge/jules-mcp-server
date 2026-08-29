@@ -19,36 +19,6 @@ import pytest_asyncio
 from fastmcp import Client
 from pytest import MonkeyPatch
 
-# This is the definitive patch. It must be applied at module-load time,
-# before any test files (and thus the `jules_mcp` module) are imported.
-from fastmcp.tools.tool import ParsedFunction
-
-# Store the original classmethod's underlying function.
-original_from_function = ParsedFunction.from_function.__func__
-
-
-@classmethod
-def patched_from_function(cls, fn, *args, **kwargs):
-    """
-    A patched version of ParsedFunction.from_function that intercepts
-    problematic tool functions and modifies their return annotation
-    before they are processed by FastMCP.
-    """
-    if fn.__name__ in (
-        "create_session",
-        "get_session",
-        "wait_for_session_completion",
-    ):
-        if "return" in fn.__annotations__:
-            fn.__annotations__["return"] = dict
-
-    # Call the original function with the class and the rest of the arguments.
-    return original_from_function(cls, fn, *args, **kwargs)
-
-
-# Apply the patch directly to the class.
-ParsedFunction.from_function = patched_from_function
-
 
 @pytest.fixture
 def mock_jules_client(monkeypatch: MonkeyPatch) -> MagicMock:
