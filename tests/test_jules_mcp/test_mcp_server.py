@@ -261,3 +261,41 @@ class TestVersion:
         from jules_mcp.jules_mcp import _FALLBACK_VERSION
 
         assert _FALLBACK_VERSION == self._pyproject_version()
+
+
+class TestPackaging:
+    """Guards against the project silently reverting to a uv 'virtual' project."""
+
+    def test_distribution_metadata_is_installed(self):
+        """`jules-mcp` must be installed as a real distribution.
+
+        Without a [build-system] table in pyproject.toml, uv treats the project as
+        virtual and never installs it, so importlib.metadata cannot see it and the
+        server falls back to the hardcoded version instead of the packaged one.
+        """
+        from importlib.metadata import PackageNotFoundError
+        from importlib.metadata import version as package_version
+
+        try:
+            installed = package_version("jules-mcp")
+        except PackageNotFoundError:  # pragma: no cover - only on a broken install
+            pytest.fail(
+                "jules-mcp distribution metadata not found. Run `uv sync`; if that "
+                "does not fix it, pyproject.toml is likely missing [build-system]."
+            )
+        assert installed == TestVersion._pyproject_version()
+
+    def test_tests_package_is_not_shipped(self):
+        """The wheel must not export a top-level `tests` package to site-packages."""
+        import tomllib
+
+        pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
+        with pyproject.open("rb") as handle:
+            config = tomllib.load(handle)
+
+        include = config["tool"]["setuptools"]["packages"]["find"].get("include")
+        assert include, (
+            "[tool.setuptools.packages.find] needs an `include` filter, otherwise "
+            "setuptools discovers `tests` and ships it as a top-level package."
+        )
+        assert all(pattern.startswith("jules_mcp") for pattern in include)

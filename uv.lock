@@ -522,7 +522,7 @@ wheels = [
 [[package]]
 name = "jules-mcp"
 version = "0.1.6"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
     { name = "jules-agent-sdk" },
