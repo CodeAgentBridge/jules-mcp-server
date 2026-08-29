@@ -13,13 +13,29 @@
 #  limitations under the License.
 
 import os
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _package_version
 from typing import Any, Final
 
 from fastmcp import FastMCP
 from jules_agent_sdk import JulesClient, models
 from mcp.types import ToolAnnotations
 
-version: Final[str] = "0.1.3"
+_DISTRIBUTION_NAME: Final[str] = "jules-mcp"
+# Only used when running straight from a source checkout, where no distribution
+# metadata exists (e.g. `fastmcp run jules_mcp/jules_mcp.py`).
+_FALLBACK_VERSION: Final[str] = "0.1.6"
+
+
+def _resolve_version() -> str:
+    """Return the installed distribution version, or the source-checkout fallback."""
+    try:
+        return _package_version(_DISTRIBUTION_NAME)
+    except PackageNotFoundError:
+        return _FALLBACK_VERSION
+
+
+version: Final[str] = _resolve_version()
 
 _jules_client: JulesClient | None = None
 
